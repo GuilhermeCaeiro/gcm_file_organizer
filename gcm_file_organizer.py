@@ -6,7 +6,8 @@ root_directory = "."
 directories_to_compare = []
 file_extension_to_directory_mapping = {}
 
-expected_arguments = ["-rd", "-m", "-c", "-pnr", "-ocli"]
+expected_arguments = ["-m", "-c"]
+expected_options = ["--pnr", "--ocli"]
 
 
 def get_file_names(root_directory):
@@ -36,8 +37,8 @@ def print_manual():
 	for line in manual:
 		print(line + "\n")
 
-def write_results_to_file(results):
-	output_file_name = str(datetime.now()) + ".txt"
+def write_results_to_file(source_directory, destination_directory, results):
+	output_file_name = os.path.basename(source_directory) + "_" + os.path.basename(destination_directory) + "_" + str(datetime.now()) + ".txt"
 	f.open(output_file_name)
 
 	for result in results:
@@ -67,9 +68,44 @@ def check_file_repetition(source_directory, destination_directory, print_not_rep
 def contains_valid_argument(expected_arguments, arguments):
 	return not set(expected_arguments).isdisjoint(arguments)
 
+def set_file_extension_to_directory_mapping_from_arg_string(arg_string):
+	# format: "pdf:/home/auser/dir1/;docx,pptx:/home/auser/dir2/"
+	mapping_strings_list = arg_string.split(";")
+	for mapping_strings in mapping_strings_list:
+		extensions_dir_list = mapping_strings.split(":")
+		extenstions = extensions_dir_list[0].split(",")
+		directory = extensions_dir_list[1]
+		for extension in extenstions:
+			file_extension_to_directory_mapping[extension] = directory
+
+
 # TODO
-if contains_valid_parameter(expected_arguments, sys.argv):
-	pass
+if contains_valid_argument(expected_arguments, sys.argv):
+	try:
+		args = sys.argv
+		for arg_pos in range(len(args)):
+			arg = args[arg_pos]
+			if arg == "-m":
+				root_directory = args[arg_pos + 1]
+				set_file_extension_to_directory_mapping_from_arg_string(args[arg_pos + 2])
+				move_files_based_on_extension(get_file_names(root_directory), file_extension_to_directory_mapping)
+			elif arg == "-c":
+				root_directory = args[arg_pos + 1]
+				# formt: /home/auser/dir1/;/home/auser/dir2/
+				directories_to_compare = args[arg_pos + 2].split(";")
+				print_not_repeated = True if "--pnr" in args else False
+				output_to_file = False if "--ocli" in args else True
+				for destination_directory in directories_to_compare:
+					check_file_repetition(source_directory, destination_directory, print_not_repeated, output_to_file)
+	except:
+		print("There was an error: ", sys.exc_info()[0])
+else:
+	print_manual()
+
+
+
+
+
 
 
 

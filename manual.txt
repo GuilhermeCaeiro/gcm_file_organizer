@@ -12,7 +12,7 @@
     
 
 -c <reference> <dirs_to_check> [OPTION]
-    Checks <dirs_to_check> for duplicates of the files in <reference>. The result is saved to a file (default, because the output can be very extensive) or printed in the terminal if the "--ocli" is used. <reference> and <dirs_to_check> have the following formats:
+    Checks <dirs_to_check> (and its subdirectories) for duplicates of the files in <reference> (and its subdirectories). The result is saved to a file (default, because the output can be very extensive) or printed in the terminal, if the "--ocli" is used. <reference> and <dirs_to_check> have the following formats:
     <reference> 
         /home/myuser/mydir/
     <dirs_to_check>

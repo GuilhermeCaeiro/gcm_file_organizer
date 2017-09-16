@@ -37,9 +37,9 @@ Checks [dirs_to_check] (and its subdirectories) for duplicates of the files in [
         
 It also has some options:
     
---ocli      Prints the output to the current terminal.
+--ocli -> Prints the output to the current terminal.
     
---pnr       Outputs the names of the unique files in <reference>, instead of the duplicated ones.
+--pnr -> Outputs the names of the unique files in <reference>, instead of the duplicated ones.
         
 Example:
 

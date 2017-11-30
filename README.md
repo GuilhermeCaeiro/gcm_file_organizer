@@ -6,7 +6,7 @@ Usage:
 
 -m [origin] [destination]
   
-Moves files under the [origin] directory (and its subdirectories) to the directories listed in [destination], according to the files' extension. The expected formats for <origin> and <destination> are:
+Moves files under the [origin] directory (and its subdirectories) to the directories listed in [destination], according to the files' extension. The expected formats for [origin] and [destination] are:
 
 [origin]:
     
